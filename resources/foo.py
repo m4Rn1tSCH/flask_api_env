@@ -10,4 +10,3 @@ class Foo(Resource):
         data = request.form['data']
         return {'data': data, 'id': id}
 
-# hello
