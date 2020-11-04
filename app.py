@@ -22,8 +22,8 @@ All objects are received by this end of the app
 This is directly routed and running in the app
 All objects will be converted to a python dict {"key":"value"}
 """
-
-@app.route('/json_example', methods=['POST']) # GET requests will be blocked
+# GET requests will be blocked
+@app.route('/json_example', methods=['POST']) 
 def json_example():
 
     '''
@@ -33,20 +33,20 @@ def json_example():
     # show an incoming JSON object that is structured like a dictionary
     req_data = request.get_json()
 
-    language = req_data['language']
-    framework = req_data['framework']
+    merchant = req_data['merchant']
+    counterparty = req_data['amount']
     # two keys are needed because of the nested object
     python_version = req_data['version_info']['python']
     # an index is needed because of the array
-    example = req_data['examples'][0]
+    timestamp = req_data['examples'][0]
     boolean_test = req_data['boolean_test']
 
     # no f literals to avoid compatibility problems with py <3.6
     return '''
-           The language value is: {}
-           The framework value is: {}
+           The merchant value is: {}
+           The counterparty value is: {}
            The Python version is: {}
-           The item at index 0 in the example list is: {}
+           The timestamp is: {}
            The boolean value is: {}'''.format(language, framework, python_version, example, boolean_test)
 
 @app.route('/json_test', methods=['POST']) # GET requests will be blocked
@@ -75,17 +75,17 @@ def query_example():
     # is looking for that arg in the URL and retrieves the value
     # .get avoids 400 error when the arg is no in the URL and keeps the system running
     # returns None if key does not exist
-    language = request.args.get('language')
+    arg1 = request.args.get('arg1')
     arg2 = request.args.get('arg2')
     arg3 = request.args.get('arg3')
     # http://127.0.0.1:5000/query_example?
     # framework=test&language=Python&arg2=HELLO&arg3=TESTING
     # URL passed will return values of keys that are found
     return '''
-            <h1>The language value is: {}</h1>
-            <h1>The language value is: {}</h1>
-            <h1>The language value is: {}</h1>
-            '''.format(language, arg2, arg3)
+            <h1>The arg1 value is: {}</h1>
+            <h1>The arg2 value is: {}</h1>
+            <h1>The arg3 value is: {}</h1>
+            '''.format(arg1, arg2, arg3)
 
 @app.route('/form_example', methods=['GET', 'POST']) #allow both GET and POST requests
 def form_example():
@@ -101,19 +101,19 @@ def form_example():
      # this block is only entered when the form is submitted
     if request.method == 'POST':
         # look for key and return None when key not found
-        language = request.form.get('language')
+        merchant = request.form.get('merchant')
         # key referenced directly but returns 400 error when not found
-        framework = request.form.get('framework')
+        amount = request.form.get('amount')
         
         return '''
-                <h1>The language value is: {}</h1>
-                <h1>The framework value is: {}</h1>
-                '''.format(language, framework)
+                <h1>The merchant value is: {}</h1>
+                <h1>The amount value is: {}</h1>
+                '''.format(merchant, amount)
 
     # This decorator displays a form with two two fields to type data
     return '''<form method="GET">
-                  Language: <input type="text" name="language"><br>
-                  Framework: <input type="text" name="framework"><br>
+                  merchant: <input type="text" name="merchant"><br>
+                  amount: <input type="text" name="amount"><br>
                   <input type="submit" value="Submit"><br>
               </form>'''
 
