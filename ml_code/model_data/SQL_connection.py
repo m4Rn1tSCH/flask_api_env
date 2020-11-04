@@ -26,8 +26,8 @@ from psycopg2 import pool
 #%%
 name = "postgres"
 user = "envel_yodlee"
-pw = "Bl0w@F1sh321"
-host = "envel-yodlee-datasource.c11nj3dc7pn5.us-east-2.rds.amazonaws.com"
+pw = "XX"
+host = "XX"
 port = "5432"
 #create_connection(name, user, pw, host, port)
 #%%
